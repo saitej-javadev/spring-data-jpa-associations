@@ -1,0 +1,4 @@
+/**** To avoid stack over flow error when using lombok @Data *****/
+https://stackoverflow.com/questions/51924054/jpa-not-fetching-data-throwing-stackoverflow-error
+
+https://stackoverflow.com/questions/54653734/lombok-java-lang-stackoverflowerror-null-on-tostring-method
