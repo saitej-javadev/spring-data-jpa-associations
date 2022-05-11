@@ -1,4 +1,4 @@
-package com.saitej.springdatajpaassociations.entities;
+package com.saitej.springdatajpaassociations.associations.onetomany.entities;
 
 
 

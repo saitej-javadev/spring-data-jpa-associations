@@ -1,12 +1,17 @@
 package com.saitej.springdatajpaassociations;
 
-import com.saitej.springdatajpaassociations.entities.Customer;
-import com.saitej.springdatajpaassociations.entities.PhoneNumber;
+
+import com.saitej.springdatajpaassociations.associations.manytomany.entities.Programmer;
+import com.saitej.springdatajpaassociations.associations.manytomany.entities.Project;
+import com.saitej.springdatajpaassociations.associations.onetomany.entities.Customer;
+import com.saitej.springdatajpaassociations.associations.onetomany.entities.PhoneNumber;
 import com.saitej.springdatajpaassociations.repos.CustomerRepository;
+import com.saitej.springdatajpaassociations.repos.ProgrammerRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -17,9 +22,10 @@ class SpringDataJpaAssociationsApplicationTests {
     @Autowired
     private CustomerRepository customerRepository;
 
-    @Test
-    void contextLoads() {
-    }
+    @Autowired
+    private ProgrammerRepository programmerRepository;
+
+   /*Customer related test cases    -  @OneToMany*/
 
     @Test
     void testCreateCustomer() {
@@ -35,7 +41,6 @@ class SpringDataJpaAssociationsApplicationTests {
 
         customer.addPhoneNumber(pn1);
         customer.addPhoneNumber(pn2);
-        ;
         customerRepository.save(customer);
     }
 
@@ -60,5 +65,33 @@ class SpringDataJpaAssociationsApplicationTests {
     @Test
     void deleteCustomer() {
         customerRepository.deleteById(4L);
+    }
+
+
+   /* Programmer related testcases   -  @ManyToMany*/
+
+    @Test
+    void testCreateProgrammer() {
+
+        Programmer programmer = new Programmer();
+        programmer.setName("John");
+        programmer.setSal(10000);
+        HashSet<Project> projects = new HashSet<>();
+        Project project = new Project();
+        project.setName("Hibernate Project");
+        projects.add(project);
+        programmer.setProjects(projects);
+        programmerRepository.save(programmer);
+
+
+    }
+
+
+    @Test
+    @Transactional//to avoid org.hibernate.LazyInitializationException: failed to lazily initialize a collection of role:
+    void testGetProgrammer() {
+        Programmer programmer = programmerRepository.findById(2).orElse(null);
+        System.out.println(programmer);
+        System.out.println(programmer.getProjects());
     }
 }
