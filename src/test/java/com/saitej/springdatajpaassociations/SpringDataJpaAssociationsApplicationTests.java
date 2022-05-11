@@ -5,14 +5,17 @@ import com.saitej.springdatajpaassociations.associations.manytomany.entities.Pro
 import com.saitej.springdatajpaassociations.associations.manytomany.entities.Project;
 import com.saitej.springdatajpaassociations.associations.onetomany.entities.Customer;
 import com.saitej.springdatajpaassociations.associations.onetomany.entities.PhoneNumber;
+import com.saitej.springdatajpaassociations.associations.onetoone.entities.Licence;
+import com.saitej.springdatajpaassociations.associations.onetoone.entities.Person;
 import com.saitej.springdatajpaassociations.repos.CustomerRepository;
+import com.saitej.springdatajpaassociations.repos.LicenceRepository;
 import com.saitej.springdatajpaassociations.repos.ProgrammerRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -24,6 +27,10 @@ class SpringDataJpaAssociationsApplicationTests {
 
     @Autowired
     private ProgrammerRepository programmerRepository;
+
+
+    @Autowired
+    private LicenceRepository licenceRepository;
 
    /*Customer related test cases    -  @OneToMany*/
 
@@ -93,5 +100,26 @@ class SpringDataJpaAssociationsApplicationTests {
         Programmer programmer = programmerRepository.findById(2).orElse(null);
         System.out.println(programmer);
         System.out.println(programmer.getProjects());
+    }
+
+    /* Licence related testcases   -  @OneToOne*/
+
+    @Test
+    void testCreateLicence() {
+
+        Licence licence = new Licence();
+        licence.setType("House");
+        licence.setValidFrom(new Date());
+        licence.setValidTo(new Date());
+
+        Person person = new Person();
+        person.setFirstName("Elon");
+        person.setLastName("Musk");
+        person.setAge(50);
+
+        licence.setPerson(person);
+
+        licenceRepository.save(licence);
+
     }
 }

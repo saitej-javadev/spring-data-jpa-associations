@@ -37,3 +37,23 @@ CREATE TABLE programmers_projects (
                                       FOREIGN KEY (project_id)
                                           REFERENCES project (id)
 );
+
+-- for OneToOne
+
+
+CREATE TABLE person (
+                        id INT PRIMARY KEY AUTO_INCREMENT,
+                        first_name VARCHAR(20),
+                        last_name VARCHAR(20),
+                        age INT
+);
+
+CREATE TABLE licence (
+                         id INT PRIMARY KEY AUTO_INCREMENT,
+                         type VARCHAR(20),
+                         valid_from DATE,
+                         valid_to DATE,
+                         person_id INT,
+                         FOREIGN KEY (person_id)
+                             REFERENCES person (id)
+);
